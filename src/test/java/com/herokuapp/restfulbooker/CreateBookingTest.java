@@ -106,6 +106,7 @@ public class CreateBookingTest extends BaseTest {
         //Verificaciones
         Assert.assertEquals(response.getStatusCode(), 200, "Status Code should be 200");
 
+        //Verificamos que el body obtenido de la respuesta es el mismo que el obtenido de la solicitud
         Assert.assertEquals(bookingId.getBooking().toString(), body.toString());
     }
 }
