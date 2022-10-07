@@ -13,7 +13,7 @@ public class UpdateBookingTest extends BaseTest {
     @Test
     public void updateBookingTest() {
         //Creamos un booking (método de la clase base)
-        Response responseCreate = responseCreateBooking();
+        Response responseCreate = createBooking();
         responseCreate.print();
 
         //Obtenemos el id del booking creado
@@ -37,8 +37,8 @@ public class UpdateBookingTest extends BaseTest {
         //Ingresamos la autorización de ingreso a la API si es necesario
         //Con preemptive() se manda la autenticación aunque el servidor no la haya solicitado
         //Se envía una autorización básica que consta de un usuario y contraseña
-        Response response = RestAssured.given().auth().preemptive().basic("admin", "password123").contentType(ContentType.JSON).
-                        body(body.toString()).put("https://restful-booker.herokuapp.com/booking/" + bookingId);
+        Response response = RestAssured.given(spec).auth().preemptive().basic("admin", "password123").contentType(ContentType.JSON).
+                        body(body.toString()).put("/booking/" + bookingId);
         response.print();
 
         //Verificaciones

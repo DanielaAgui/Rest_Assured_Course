@@ -14,6 +14,7 @@
     </properties>
 
     <dependencies>
+
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
@@ -26,10 +27,18 @@
             <version>5.2.0</version>
         </dependency>
 
+        <!-- Para trabajar con objetos json -->
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20220924</version>
+        </dependency>
+
+        <!-- Para deserializar objetos json en objetos java -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.13.4</version>
         </dependency>
 
     </dependencies>

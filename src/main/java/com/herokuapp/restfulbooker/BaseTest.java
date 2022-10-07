@@ -1,14 +1,30 @@
 package com.herokuapp.restfulbooker;
 
 import io.restassured.RestAssured;
+import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import org.json.JSONObject;
+import org.testng.annotations.BeforeMethod;
 
 public class BaseTest {
 
+    protected RequestSpecification spec;
+
+    //Método de configuración
+    @BeforeMethod
+    public void setUp() {
+        //Especificaciones de solicitudes para evitar la duplicación de código
+        //Permite especificar como se verá la solicitud (URI, headers, verbos HTTP, etc)
+        //Creamos una especificación de solicitud, establecemos la URI base
+         spec = new RequestSpecBuilder().
+                setBaseUri("https://restful-booker.herokuapp.com").
+                build();
+    }
+
     //Clase base donde creamos un booking nuevo
-    protected static Response responseCreateBooking() {
+    protected Response createBooking() {
         //Creamos un objeto Json con el body que necesitamos para el POST
         JSONObject body = new JSONObject();
         //Agregamos todas las claves según especificaciones de la API con los valores a añadir
@@ -26,9 +42,9 @@ public class BaseTest {
         body.put("additionalneeds", "Vegano");
 
         //Creamos una respuesta dado un dado un header de tipo Json convertido en String
-        Response response = RestAssured.given().contentType(ContentType.JSON).
+        Response response = RestAssured.given(spec).contentType(ContentType.JSON).
                 //Y un body con el objeto body creado, hacemos un POST a la URI dada
-                        body(body.toString()).post("https://restful-booker.herokuapp.com/booking");
+                        body(body.toString()).post("/booking");
         //Retornamos la respuesta
         return response;
     }

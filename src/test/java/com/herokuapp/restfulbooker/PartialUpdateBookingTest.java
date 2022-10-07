@@ -13,7 +13,7 @@ public class PartialUpdateBookingTest extends BaseTest {
     @Test
     public void partialUpdateBookingTest() {
         //Creamos un booking (método de la clase base)
-        Response responseCreate = responseCreateBooking();
+        Response responseCreate = createBooking();
         responseCreate.print();
 
         //Obtenemos el id del booking creado
@@ -26,11 +26,14 @@ public class PartialUpdateBookingTest extends BaseTest {
 
         JSONObject bookingdates = new JSONObject();
         bookingdates.put("checkin", "2022-10-10");
+        bookingdates.put("checkout", "2022-10-31");
+
+        body.put("bookingdates", bookingdates);
 
         //Pasamos la respuesta con un header Json, el body anterior y un método PATCH
         //Ingresamos la autorización de ingreso a la API si es necesario
-        Response response = RestAssured.given().auth().preemptive().basic("admin", "password123").contentType(ContentType.JSON).
-                        body(body.toString()).patch("https://restful-booker.herokuapp.com/booking/" + bookingId);
+        Response response = RestAssured.given(spec).auth().preemptive().basic("admin", "password123").contentType(ContentType.JSON).
+                        body(body.toString()).patch("/booking/" + bookingId);
         response.print();
 
         //Verificaciones
@@ -42,7 +45,7 @@ public class PartialUpdateBookingTest extends BaseTest {
         softAssert.assertEquals(firstName, "Daniela");
 
         String lastName = response.jsonPath().getString("lastname");
-        softAssert.assertEquals(lastName, "Casas");
+        softAssert.assertEquals(lastName, "Mendoza");
 
         int totalprice = response.jsonPath().getInt("totalprice");
         softAssert.assertEquals(totalprice, 500);
